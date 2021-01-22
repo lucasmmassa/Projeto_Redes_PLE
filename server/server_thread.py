@@ -1,10 +1,10 @@
-from pln_protocol import PLN_Protocol
+from pln_protocol_server import PLN_Protocol_Server
 
 def server_thread(connection,address):
     ip, port = str(address[0]), str(address[1])
     print('Connected to client',ip,':',port)
 
-    protocol = PLN_Protocol()
+    protocol = PLN_Protocol_Server()
 
     while True:
         client_message = connection.recv(40960000)

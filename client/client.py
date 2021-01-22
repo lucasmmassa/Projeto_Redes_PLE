@@ -1,6 +1,7 @@
 import socket
 import os
 import pandas as pd
+from pln_protocol_client import PLN_Protocol_Client
 
 class Client:
 
@@ -8,7 +9,7 @@ class Client:
         self.connection_ip, self.connection_port = connection_info
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.texts = None
-        self.raw_coordinates = None
+        self.text_vectors = None
 
     def valid_file_and_content(self,file):
         if not os.path.isfile(file):
@@ -24,62 +25,47 @@ class Client:
 
         return  df['content'].tolist()
 
-    def format_message(self,command,texts):
-        formated = command + '\n'
-
-        for t in texts:
-            t.replace('\n',' ')
-            formated += t + '\n'
-
-        return formated + '\n'
-
-    def parse_response(self):
-        pass #TODO
-
     def run(self):
         self.socket.connect((self.connection_ip,self.connection_port))
         print('Client initialized and connected to', self.connection_ip)
 
         while True:
             command = input("Type a sentence or 'DISCONNECT' to exit\n") #TODO lista o nome dos comandos
-            
-            if command == 'DISCONNECT':
-                formated = self.format_message(command,[])
-                self.socket.send(formated.encode('utf-8'))
-                response = self.socket.recv(1024)
-                response = response.decode('utf-8')
 
-                print('Received response is:',response)
-                print('---------------------\n')
+            protocol = PLN_Protocol_Client(command)
+
+            if protocol.valid:
                 
-                print('Closing client')
-                self.socket.close()
-                break
+                if protocol.need_data:
+                    print('Please send a .csv file which contains the texts inside a column named content.')
+                    file = input('Type the file path:\n')
 
-            else:
-                print('Please send a .csv file which contains the texts inside a column named content.')
-                file = input('Type the file path:\n')
+                    self.texts = self.valid_file_and_content(file)
 
-                self.texts = self.valid_file_and_content(file)
+                    if self.texts != None:
+                        formated = protocol.format_message(self.texts)
 
-                if self.texts != None:
+                        if protocol.valid_data:
+                            print('Sending request to the server...\n')
+                            self.socket.send(formated.encode('utf-8'))
 
-                    print('Valid file.')
+                            response = self.socket.recv(40960000)
+                            response = response.decode('utf-8')
 
-                    formated = self.format_message(command,self.texts) 
+                            self.text_vectors = protocol.parse_response(response)
 
-                    ('Sending request to server...')                 
-
-                    self.socket.send(formated.encode('utf-8'))
-
-                    response = self.socket.recv(40960000)
-                    response = response.decode('utf-8')
-
-                    print('Received response is:',response)
-                    print('---------------------\n')
 
                 else:
-                    print('Invalid file.\n')
+                    formated = protocol.format_message(None)     
+
+                    print('Sending request to the server...\n')
+                    self.socket.send(formated.encode('utf-8'))
+
+                    response = self.socket.recv(1024)
+                    response = response.decode('utf-8')
+
+                    self.text_vectors = protocol.parse_response(response)
+                    
 
 def main():
     address = ("localhost", 20000)

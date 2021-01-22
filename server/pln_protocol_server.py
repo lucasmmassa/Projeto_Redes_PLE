@@ -7,7 +7,7 @@ def create_invalid_command(status,ip,port):
 def create_disconnect_command(status,ip,port):
     return Disconnect_Command(status,ip,port)
 
-class PLN_Protocol:
+class PLN_Protocol_Server:
 
     def __init__(self):
         self.valid_commands = ['DISCONNECT'] #TODO adicionar os comandos restantes  
@@ -20,7 +20,7 @@ class PLN_Protocol:
         response = status + '\n'
 
         for row in result:
-            response += str(row[0]) + ';' + str(row[1]) + '\n'
+            response += str(row[0]) + ';' + str(row[1]) + '\n' #TODO
 
         return response + '\n'
 

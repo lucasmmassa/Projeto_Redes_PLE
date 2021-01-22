@@ -1,6 +1,8 @@
 import socket
 from server_thread import *
 from sys import exit
+from _thread import *
+
 
 class Server:
   

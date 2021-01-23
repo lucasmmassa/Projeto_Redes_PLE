@@ -20,7 +20,7 @@ class Server:
       start_new_thread(server_thread, (connection, address))
     
 def main():
-  address = ("localhost", 20000)
+  address = ("", 20000)
   server = Server(address)
   server.run()
 

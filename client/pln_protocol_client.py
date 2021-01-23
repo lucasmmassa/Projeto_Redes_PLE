@@ -1,10 +1,9 @@
-import numpy as np
 import io
 
 class PLN_Protocol_Client:
 
     def __init__(self,command):
-        self.valid_commands = ['DISCONNECT'] #TODO adicionar os comandos restantes  
+        self.valid_commands = ['DISCONNECT','CV','TFIDF']  
         self.command = command
         self.valid = command in self.valid_commands
 
@@ -34,6 +33,7 @@ class PLN_Protocol_Client:
 
         if self.need_data:
 
+
             #TODO checar se os dados são iteraveis com string
             
             if len(data) < 1:
@@ -43,7 +43,7 @@ class PLN_Protocol_Client:
                 return None
 
             for text in data:
-                text.replace('\n',' ')
+                text = text.replace('\n',' ')
                 message += text + '\n'
 
         message += '\n'
@@ -51,14 +51,30 @@ class PLN_Protocol_Client:
         return message
 
     def parse_response(self,response):
+        buffer = io.StringIO(response)
+        response_status = buffer.readline().replace('\n','')
+
+        result = None
+
         if self.need_data:
-            pass #TODO
+            empty = False
+            result = []
 
-        else:
-            buffer = io.StringIO(response)
-            response_status = buffer.readline().replace('\n','')
+            while not empty:              
+                row = buffer.readline().replace('\n','')
 
-            print('STATUS',response_status,'-',self.status_messages[response_status])
+                if row == '':
+                    empty = True
 
-            return None           
+                else:
+                    row = row.split(';')
+                    for i in range(len(row)):
+                        row[i] = float(row[i])
+
+                    result.append(row)
+
+
+        print('STATUS',response_status,'-',self.status_messages[response_status])
+
+        return result           
     

@@ -1,6 +1,7 @@
 import socket
 import os
 import pandas as pd
+import numpy as np
 from pln_protocol_client import PLN_Protocol_Client
 
 class Client:
@@ -52,7 +53,8 @@ class Client:
                             response = self.socket.recv(40960000)
                             response = response.decode('utf-8')
 
-                            self.text_vectors = protocol.parse_response(response)
+                            self.text_vectors = np.array(protocol.parse_response(response))
+                            np.save('test.npy',self.text_vectors)
 
 
                 else:

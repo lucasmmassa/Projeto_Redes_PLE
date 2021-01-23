@@ -7,20 +7,29 @@ def create_invalid_command(status,ip,port):
 def create_disconnect_command(status,ip,port):
     return Disconnect_Command(status,ip,port)
 
+def create_cv_command(status,ip,port,data):
+    return CV_Command(status,ip,port,data)
+
 class PLN_Protocol_Server:
 
     def __init__(self):
-        self.valid_commands = ['DISCONNECT'] #TODO adicionar os comandos restantes  
+        self.valid_commands = ['DISCONNECT','CV','TFIDF']  
         self.command_hash = {
             'INVALID': create_invalid_command,
             'DISCONNECT': create_disconnect_command,
+            'CV': create_cv_command,
         }  
 
     def format_response(self,status,result):
         response = status + '\n'
 
         for row in result:
-            response += str(row[0]) + ';' + str(row[1]) + '\n' #TODO
+            aux = []
+            for element in row:
+                aux.append(str(element))
+
+            response += ';'.join(aux)
+            response += '\n'
 
         return response + '\n'
 
@@ -40,4 +49,17 @@ class PLN_Protocol_Server:
                 return command
 
             else:
-                pass #TODO
+                empty = False
+                data = []
+
+                while not empty:
+                    text = buffer.readline().replace('\n','')
+
+                    if text == '':
+                        empty = True
+
+                    else:
+                        data.append(text)
+
+                command = self.command_hash[command_message](status='200',ip=ip,port=port,data=data)
+                return command

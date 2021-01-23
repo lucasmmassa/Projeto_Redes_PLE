@@ -10,6 +10,9 @@ def create_disconnect_command(status,ip,port):
 def create_cv_command(status,ip,port,data):
     return CV_Command(status,ip,port,data)
 
+def create_tfidf_command(status,ip,port,data):
+    return TFIDF_Command(status,ip,port,data)
+
 class PLN_Protocol_Server:
 
     def __init__(self):
@@ -18,6 +21,7 @@ class PLN_Protocol_Server:
             'INVALID': create_invalid_command,
             'DISCONNECT': create_disconnect_command,
             'CV': create_cv_command,
+            'TFIDF': create_tfidf_command,
         }  
 
     def format_response(self,status,result):

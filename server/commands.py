@@ -62,3 +62,21 @@ class CV_Command(Command):
 
         print('COMMAND=CV - STATUS=200 - CLIENT='+self.origin_ip+':'+self.origin_port+'\n')
 
+class TFIDF_Command(Command):
+
+    def __init__(self,status,ip,port,data):
+        super().__init__()
+        self.status = status
+        self.origin_ip = ip
+        self.origin_port = port
+        self.data = data
+
+
+    def run(self):
+        for i in range(len(self.data)):
+            self.data[i] = pre_process_text(self.data[i])
+
+        tfidf = TfidfVectorizer(lowercase=True,max_features=5000)
+        self.result = tfidf.fit_transform(self.data).toarray().tolist()
+
+        print('COMMAND=CV - STATUS=200 - CLIENT='+self.origin_ip+':'+self.origin_port+'\n')

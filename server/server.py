@@ -13,7 +13,7 @@ class Server:
 
   def run(self):
     self.socket.listen()
-    print('Server running at port',self.port)
+    print('Server running at',self.ip,':',self.port)
 
     while True: 
       connection, address = self.socket.accept()

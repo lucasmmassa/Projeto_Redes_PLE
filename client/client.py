@@ -28,7 +28,7 @@ class Client:
 
     def run(self):
         self.socket.connect((self.connection_ip,self.connection_port))
-        print('Client initialized and connected to', self.connection_ip)
+        print('Client initialized and connected to', self.connection_ip,':',self.connection_port)
 
         while True:
             command = input("Type a sentence or 'DISCONNECT' to exit\n") #TODO lista o nome dos comandos
@@ -67,10 +67,15 @@ class Client:
                     response = response.decode('utf-8')
 
                     self.text_vectors = protocol.parse_response(response)
-                    
+
+                    if protocol.disconnect_successful:
+                        break
+
+        print('Finishing client process.')            
 
 def main():
-    address = ("localhost", 20000)
+    ip = input("Please type the server IP address or localhost\n")
+    address = (ip, 20000)
     client = Client(address)
     client.run()
 

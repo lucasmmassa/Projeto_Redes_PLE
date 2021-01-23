@@ -73,6 +73,9 @@ class PLN_Protocol_Client:
 
                     result.append(row)
 
+        if response_status == '500':
+            self.disconnect_successful = True
+
 
         print('STATUS',response_status,'-',self.status_messages[response_status])
 

@@ -6,6 +6,7 @@
 
 * **Luana Júlia Nunes Ferreira** - e-mail: ljnf@ic.ufal.br - GitHub: https://github.com/ferreiraluana
 
+## Descrição
 
 O projeto implementado tem como intenção praticar o uso de sockets para a construção de um protocolo de aplicação em uma arquitetura cliente-servidor. Tendo isso em vista, foi implementada uma aplicação cuja funcionalidade é transformar textos recebidos através de uma requisição em vetores, fazendo uso de algoritmos de Processamento de Linguagem Natural (PLN), e devolver essas representações vetoriais como resposta para o cliente.
 

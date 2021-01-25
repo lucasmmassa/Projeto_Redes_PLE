@@ -1,3 +1,42 @@
+'''
+O texto abaixo dá informações a respeito do protocolo criado.
+O código se encontra logo após essa explicação.
+
+#############################################################################################################
+
+FORMATO DA MENSAGEM ENVIADA QUANDO CONTÉM TEXTOS:       FORMATO DA MENSAGEM ENVIADA QUANDO NÃO CONTÉM TEXTOS:
+
+    COMANDO                                                 COMANDO
+    TEXTO 1                                                 LINHA VAZIA
+    TEXTO 2
+    TEXTO 3
+    ...
+    TEXTO N
+    LINHA VAZIA
+
+#############################################################################################################
+
+FORMATO DA RESPOSTA CONTENDO VETORES:                   FORMATO DA RESPOSTA SEM VETORES:
+
+    STATUS                                                  STATUS
+    X11;X12;...;X1m                                         LINHA VAZIA
+    X21;X22;...;X2m
+    X31;X32;...;X3m
+    ...
+    Xn1;Xn2;...;Xnm
+    LINHA VAZIA
+
+#############################################################################################################
+
+As requisições podem resultar nos seguites códigos de status:
+
+* 200 - SUCCESS: indica que uma requisição de vetorização foi bem sucedida;
+* 300 - INVALID DATA: os textos dados de entrada não seguem o padrão exigido;
+* 301 - ALGORITHM RUN FAILED: houve uma falha ao tentar executar o algoritmo nos textos enviados;
+* 400 - INVALID COMMAND: o comando requisitado não faz parte da lista de comandos disponíveis;
+* 500 DISCONNECTED: indica que a requisição de desconexão foi bem sucedida.
+'''
+
 import io
 
 class PLN_Protocol_Client:

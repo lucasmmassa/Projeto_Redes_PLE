@@ -14,14 +14,22 @@ class Client:
 
     def valid_file_and_content(self,file):
         if not os.path.isfile(file):
+            print('The typed path is not a file.')
             return None
 
         extension = file.split('.')[-1]
         if extension != 'csv':
+            print('The typed path is not a .csv file.')
+            return None
+
+        file_size = os.path.getsize(file)
+        if file_size > 40960000:
+            print('The chosen file is too big.')
             return None
 
         df = pd.read_csv(file)
         if not ('content' in df.columns):
+            print("The .csv file does not contain a 'content' column.")
             return None
 
         return  df['content'].tolist()

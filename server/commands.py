@@ -57,7 +57,7 @@ class CV_Command(Command):
         for i in range(len(self.data)):
             self.data[i] = pre_process_text(self.data[i])
 
-        cv = CountVectorizer(lowercase=True,max_features=5000)
+        cv = CountVectorizer(lowercase=True,max_features=1000)
         self.result = cv.fit_transform(self.data).toarray().tolist()
 
         print('COMMAND=CV - STATUS=200 - CLIENT='+self.origin_ip+':'+self.origin_port+'\n')
@@ -76,7 +76,7 @@ class TFIDF_Command(Command):
         for i in range(len(self.data)):
             self.data[i] = pre_process_text(self.data[i])
 
-        tfidf = TfidfVectorizer(lowercase=True,max_features=5000)
+        tfidf = TfidfVectorizer(lowercase=True,max_features=1000)
         self.result = tfidf.fit_transform(self.data).toarray().tolist()
 
         print('COMMAND=CV - STATUS=200 - CLIENT='+self.origin_ip+':'+self.origin_port+'\n')

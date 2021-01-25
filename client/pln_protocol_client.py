@@ -15,6 +15,7 @@ class PLN_Protocol_Client:
             self.status_messages = {
                 '200' : 'SUCCESS',
                 '300' : 'INVALID DATA',
+                '301' : 'ALGORITHM RUN FAILED',
                 '400' : 'INVALID COMMAND',
                 '500' : 'DISCONNECTED',
             }

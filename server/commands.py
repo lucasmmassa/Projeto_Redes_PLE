@@ -31,6 +31,18 @@ class Invalid_Command(Command):
     def run(self):
         print('COMMAND=INVALID - STATUS=400 - CLIENT='+self.origin_ip+':'+self.origin_port+'\n')
 
+class Invalid_Data(Command):
+
+    def __init__(self,status,ip,port):
+        super().__init__()
+        self.status = status
+        self.origin_ip = ip
+        self.origin_port = port
+
+
+    def run(self):
+        print('INVALID DATA - STATUS=300 - CLIENT='+self.origin_ip+':'+self.origin_port+'\n')
+
 class Disconnect_Command(Command):
 
     def __init__(self,status,ip,port):
@@ -54,13 +66,17 @@ class CV_Command(Command):
 
 
     def run(self):
-        for i in range(len(self.data)):
-            self.data[i] = pre_process_text(self.data[i])
+        try:
+            for i in range(len(self.data)):
+                self.data[i] = pre_process_text(self.data[i])
 
-        cv = CountVectorizer(lowercase=True,max_features=1000)
-        self.result = cv.fit_transform(self.data).toarray().tolist()
+            cv = CountVectorizer(lowercase=True,max_features=1000)
+            self.result = cv.fit_transform(self.data).toarray().tolist()
 
-        print('COMMAND=CV - STATUS=200 - CLIENT='+self.origin_ip+':'+self.origin_port+'\n')
+        except:
+            self.status = '301'
+
+        print('COMMAND=CV - STATUS='+self.status+' - CLIENT='+self.origin_ip+':'+self.origin_port+'\n')
 
 class TFIDF_Command(Command):
 
@@ -73,10 +89,14 @@ class TFIDF_Command(Command):
 
 
     def run(self):
-        for i in range(len(self.data)):
-            self.data[i] = pre_process_text(self.data[i])
+        try:
+            for i in range(len(self.data)):
+                self.data[i] = pre_process_text(self.data[i])
 
-        tfidf = TfidfVectorizer(lowercase=True,max_features=1000)
-        self.result = tfidf.fit_transform(self.data).toarray().tolist()
+            tfidf = TfidfVectorizer(lowercase=True,max_features=1000)
+            self.result = tfidf.fit_transform(self.data).toarray().tolist()
 
-        print('COMMAND=CV - STATUS=200 - CLIENT='+self.origin_ip+':'+self.origin_port+'\n')
+        except:
+            self.status = '301'
+
+        print('COMMAND=CV - STATUS='+self.status+' - CLIENT='+self.origin_ip+':'+self.origin_port+'\n')

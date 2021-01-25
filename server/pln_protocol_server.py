@@ -4,6 +4,9 @@ from commands import *
 def create_invalid_command(status,ip,port):
     return Invalid_Command(status,ip,port)
 
+def create_invalid_data(status,ip,port):
+    return Invalid_Data(status,ip,port)
+
 def create_disconnect_command(status,ip,port):
     return Disconnect_Command(status,ip,port)
 
@@ -19,6 +22,7 @@ class PLN_Protocol_Server:
         self.valid_commands = ['DISCONNECT','CV','TFIDF']  
         self.command_hash = {
             'INVALID': create_invalid_command,
+            'INVALID DATA': create_invalid_data,
             'DISCONNECT': create_disconnect_command,
             'CV': create_cv_command,
             'TFIDF': create_tfidf_command,
@@ -42,28 +46,36 @@ class PLN_Protocol_Server:
         buffer = io.StringIO(message)
 
         command_message = buffer.readline().replace('\n','')
+        command = None
 
         if not (command_message in self.valid_commands):
             command = self.command_hash['INVALID'](status='400',ip=ip,port=port)
-            return command
-
+            
         else:
             if command_message == 'DISCONNECT':
                 command = self.command_hash['DISCONNECT'](status='500',ip=ip,port=port)
-                return command
+                
 
             else:
+                failure = False
                 empty = False
                 data = []
+                
+                try:       
+                    while not empty:
+                        text = buffer.readline().replace('\n','')
 
-                while not empty:
-                    text = buffer.readline().replace('\n','')
+                        if text == '':
+                            empty = True
 
-                    if text == '':
-                        empty = True
+                        else:
+                            data.append(text)
+                except:
+                    failure = True
+                    command = self.command_hash['INVALID DATA'](status='300',ip=ip,port=port)
 
-                    else:
-                        data.append(text)
+                if not failure:
+                    command = self.command_hash[command_message](status='200',ip=ip,port=port,data=data)
 
-                command = self.command_hash[command_message](status='200',ip=ip,port=port,data=data)
-                return command
+        return command
+                

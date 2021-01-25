@@ -29,6 +29,8 @@ class PLN_Protocol_Client:
             print('STATUS 400 - INVALID COMMAND\n')
 
     def format_message(self,data):
+        print('Formating the message to be sent...\n')
+
         message = self.command + '\n'
 
         if self.need_data:
@@ -64,9 +66,13 @@ class PLN_Protocol_Client:
 
         message += '\n'
 
+        print('Finished formating.\n')
+
         return message
 
     def parse_response(self,response):
+        print('Parsing the received response...\n')
+
         buffer = io.StringIO(response)
         response_status = buffer.readline().replace('\n','')
 
@@ -92,8 +98,9 @@ class PLN_Protocol_Client:
         if response_status == '500':
             self.disconnect_successful = True
 
+        print('Finished parsing.\n')
 
-        print('STATUS',response_status,'-',self.status_messages[response_status])
+        print('STATUS',response_status,'-',self.status_messages[response_status],'\n')
 
         return result           
     

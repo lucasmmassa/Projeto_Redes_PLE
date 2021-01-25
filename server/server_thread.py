@@ -8,6 +8,9 @@ def server_thread(connection,address):
 
     while True:
         client_message = connection.recv(40960000)
+
+        print('Request received from',ip,':',port,'\n')
+
         client_message = client_message.decode('utf-8')
 
         command = protocol.parse_message(client_message,ip,port)

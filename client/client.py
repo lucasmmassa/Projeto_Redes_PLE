@@ -36,18 +36,25 @@ class Client:
 
     def run(self):
         self.socket.connect((self.connection_ip,self.connection_port))
-        print('Client initialized and connected to', self.connection_ip,':',self.connection_port)
+        print('Client initialized and connected to', self.connection_ip,':',self.connection_port,'\n')
 
         while True:
-            command = input("Type a sentence or 'DISCONNECT' to exit\n") #TODO lista o nome dos comandos
+            print('Choose one of the commands below. Type exactly as shown:\n')
+            print("CV -> transform texts into vectors using Count Vectorizer;")
+            print('TFIDF -> transform texts into vectors using TF/IDF Vectorizer;')
+            print('DISCONNECT -> disconnect from the server and close the client program.\n')
+
+            command = input("Type a command: ")
 
             protocol = PLN_Protocol_Client(command)
 
             if protocol.valid:
                 
                 if protocol.need_data:
-                    print('Please send a .csv file which contains the texts inside a column named content.')
-                    file = input('Type the file path:\n')
+                    print("Choose a .csv file which contains the texts inside a column named 'content'.")
+                    print('The file cannot contain empty texts.')
+                    print('The maximum size accepted for the file is 40MB.\n')
+                    file = input('Type the file path: ')
 
                     self.texts = self.valid_file_and_content(file)
 

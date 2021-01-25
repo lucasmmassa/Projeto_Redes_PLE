@@ -1,5 +1,12 @@
 # Projeto de implementação de aplicação usando sockets para a disciplina de Redes de Computadores
 
+## Grupo de projeto
+
+* **Lucas Mendes Massa** - e-mail: lmm@ic.ufal.br - GitHub: https://github.com/lucasmmassa
+
+* **Luana Júlia Nunes Ferreira** - e-mail: ljnf@ic.ufal.br - GitHub: https://github.com/ferreiraluana
+
+
 O projeto implementado tem como intenção praticar o uso de sockets para a construção de um protocolo de aplicação em uma arquitetura cliente-servidor. Tendo isso em vista, foi implementada uma aplicação cuja funcionalidade é transformar textos recebidos através de uma requisição em vetores, fazendo uso de algoritmos de Processamento de Linguagem Natural (PLN), e devolver essas representações vetoriais como resposta para o cliente.
 
 No que concerne aos algoritmos de PLN disponíveis para o usuário, ambos são bastante conhecidos na área. Mais informações a seu respeito podem ser encontradas nos links abaixo:
@@ -53,13 +60,6 @@ As requisições podem resultar nos seguites códigos de status:
 * 301 - ALGORITHM RUN FAILED: houve uma falha ao tentar executar o algoritmo nos textos enviados;
 * 400 - INVALID COMMAND: o comando requisitado não faz parte da lista de comandos disponíveis;
 * 500 DISCONNECTED: indica que a requisição de desconexão foi bem sucedida.
-
-## Grupo de projeto
-
-* **Lucas Mendes Massa** - e-mail: lmm@ic.ufal.br - GitHub: https://github.com/lucasmmassa
-
-* **Luana Júlia Nunes Ferreira** - e-mail: ljnf@ic.ufal.br - GitHub: https://github.com/ferreiraluana
-
 
 ## Requisitos e instalação
 

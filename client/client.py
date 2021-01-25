@@ -44,6 +44,9 @@ class Client:
                     self.texts = self.valid_file_and_content(file)
 
                     if self.texts != None:
+
+                        print('Valid file.\n')
+
                         formated = protocol.format_message(self.texts)
 
                         if protocol.valid_data:
@@ -55,6 +58,10 @@ class Client:
 
                             self.text_vectors = np.array(protocol.parse_response(response))
                             np.save('test.npy',self.text_vectors)
+
+                    else:
+                        print('Invalid file.')
+                        print('Please check if the file has the requested format.\n')
 
 
                 else:

@@ -32,17 +32,33 @@ class PLN_Protocol_Client:
         message = self.command + '\n'
 
         if self.need_data:
-
-
-            #TODO checar se os dados são iteraveis com string
+            if not type(data) == list:
+                self.valid_data = False
+                print('The received data is not a list.')
+                print('Request not sent to the server.')
+                print('STATUS 300 - INVALID DATA')
+                return None
             
             if len(data) < 1:
                 self.valid_data = False
+                print('The received data is an empty list.')
                 print('Request not sent to the server.')
                 print('STATUS 300 - INVALID DATA')
                 return None
 
             for text in data:
+                if not type(text) == str:
+                    print('The received data contains non string elements.')
+                    print('Request not sent to the server.')
+                    print('STATUS 300 - INVALID DATA')
+                    return None
+                
+                if text == '':
+                    print('The received data contains empty strings. This can cause problems for the protocol to parse the message.')
+                    print('Request not sent to the server.')
+                    print('STATUS 300 - INVALID DATA')
+                    return None
+
                 text = text.replace('\n',' ')
                 message += text + '\n'
 

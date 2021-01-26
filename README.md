@@ -64,7 +64,7 @@ As requisições podem resultar nos seguites códigos de status:
 
 ## Requisitos e instalação
 
-Para que seja possível rodar o presente projeto em um computador é necessário que o mesmo tenha instaldo o sistema de controle de versão Git e a linguagem de programação Python 3. Além disso, deve-se seguir as instruções dadas nas subseções abaixo.
+Para que seja possível rodar o presente projeto em um computador é necessário que o mesmo tenha instalado o sistema de controle de versão Git e a linguagem de programação Python 3. Além disso, deve-se seguir as instruções dadas nas subseções abaixo.
 
 ### Clonar o repositório
 
